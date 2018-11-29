@@ -39,6 +39,26 @@ getFollowers <- function(username)
   return (followersDF)
 }
 
+#Returns a dataframe with information on the Current Users Repositories
+getRepos <- function(username)
+{
+  i <- 1
+  x <- 1
+  reposDF <- data_frame()
+  while(x!=0)
+  {
+    repos <- GET( paste0("https://api.github.com/users/", username, "/repos?per_page=100&page=", i),getToken)
+    reposContent <- content(repos)
+    currentReposDF <- lapply(reposContent, function(x) 
+    {
+      df <- data_frame(repo = x$name, id = x$id, commits = x$git_commits_url, language = x$languages) #language = x$language)
+    }) %>% bind_rows()
+    i <- i+1
+    x <- length(reposContent)
+    reposDF <- rbind(reposDF, currentReposDF)
+  }
+  return (reposDF)
+}
 
 
 
