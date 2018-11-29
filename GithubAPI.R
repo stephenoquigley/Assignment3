@@ -60,6 +60,32 @@ getRepos <- function(username)
   return (reposDF)
 }
 
+#Returns a dataframe with the language used in each of the users repos
+getLanguages <- function(username)
+{
+  
+  reposDF <- GET( paste0("https://api.github.com/users/", username, "/repos?per_page=100"),getToken)
+  repoContent <- content(reposDF)
+  i <- 1
+  languageDF <- data_frame()
+  numberOfRepos <- length(repoContent)
+  for(i in 1:numberOfRepos)
+  {
+    repoLanguage <- repoContent[[i]]$language
+    repoName <- repoContent[[i]]$name
+    if(is_null(repoLanguage))
+    {
+      currentLanguageDF <- data_frame(repo = repoName, language = "No language specified")
+    }else
+    {
+      currentLanguageDF <- data_frame(repo = repoName, language = repoLanguage)
+    }
+    i <- i+1
+    languageDF <- rbind(languageDF, currentLanguageDF)
+  }
+  return (languageDF)
+}
+
 
 
 
