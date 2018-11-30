@@ -53,6 +53,12 @@ getFollowers <- function(username)
   return (followers$login)
 }
 
+getFollowing <- function(username)
+{
+  URL <- paste("https://api.github.com/users/", username , "/following", sep="")
+  followers = fromJSON(URL)
+  return (followers$login)
+}
 
 
 
