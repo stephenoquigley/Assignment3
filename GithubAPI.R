@@ -1,3 +1,5 @@
+#----------Setting up the Github Connection---------------
+
 #install.packages("jsonlite")
 library(jsonlite)
 #install.packages("httpuv")
@@ -19,6 +21,11 @@ myapp = oauth_app(appname = "APIgithub",
 github_token = oauth2.0_token(oauth_endpoints("github"), myapp)
 gtoken = config(token = github_token)
 
+#-------------Interrogate the GitHub API to build visualisation of data available that--------------
+#-------------elucidates some aspect of the softare engineering process-----------------------------
+
+
+
 getFollowers <- function(username)
 {
   i = 1
@@ -38,6 +45,19 @@ getFollowers <- function(username)
   }
   return (followersDF)
 }
+
+getFollowers <- function(username)
+{
+  URL <- paste("https://api.github.com/users/", username , "/followers", sep="")
+  followers = fromJSON(URL)
+  return (followers$login)
+}
+
+
+
+
+
+
 
 #Returns a dataframe with information on the Current Users Repositories
 getRepos <- function(username)
