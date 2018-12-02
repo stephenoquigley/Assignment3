@@ -142,6 +142,13 @@ for(i in 1:length(followersLogins))
             followingContent = content(following2)
             followingDataFrame2 = jsonlite::fromJSON(jsonlite::toJSON(followingContent))
             
+            # Retrieve specific details on each user
+            followingNumber = followingDataFrame2$following
+            followersNumber = followingDataFrame2$followers
+            reposNumber = followingDataFrame2$public_repos
+            yearCreated = substr(followingDataFrame2$created_at, start = 1, stop = 4)
+            
+            
         }    
     }
 }
