@@ -101,7 +101,7 @@ followers=githubDB$login
 followersLogins = c(followers)
 
 users = c()
-usersDB = data.frame(
+usersDataBase = data.frame(
     username = integer(),
     following = integer(),
     followers = integer(),
@@ -139,7 +139,7 @@ for(i in 1:length(followersLogins))
             # Retrieve data on each user
             followingURL = paste("https://api.github.com/users/", followingUsernames[j], sep = "")
             followingInfo = GET(followingURL, gtoken)
-            followingContent = content(following2)
+            followingContent = content(followingInfo)
             followingDataFrame2 = jsonlite::fromJSON(jsonlite::toJSON(followingContent))
             
             # Retrieve specific details on each user
@@ -150,7 +150,7 @@ for(i in 1:length(followersLogins))
             
             
             # Add users data to a new row in the dataframe
-            usersDB[nrow(usersDB) + 1, ] = c(followingUsernames[j], followingNumber, followersNumber, reposNumber, yearCreated)
+            usersDataBase[nrow(usersDataBase) + 1, ] = c(followingUsernames[j], followingNumber, followersNumber, reposNumber, yearCreated)
         }
         next
     }
@@ -165,10 +165,14 @@ for(i in 1:length(followersLogins))
 
 
 #----------------- Now to build the visualisations-------------------
-# Connect R to plotly
+
+plot1 = plot_ly(data = usersDataBase, x = ~repos, y = ~followers, 
+                text = ~paste("Followers: ", followers, "<br>Repositories: ", 
+                              repos, "<br>Date Created:", dateCreated), color = ~dateCreated)
+
 Sys.setenv("plotly_username"="stephenoquigley")
 Sys.setenv("plotly_api_key"= "ImYtk3y7KA0TBoEcnL6m")
-
+api_create(plot1, filename = "Followers vs Repositories by Date")
 
 
 
