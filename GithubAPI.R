@@ -89,7 +89,7 @@ myRepositories = getRepositories("stephenoquigley")
 numberOfRepos = length(myRepositories)
 
 
-#---------- Now to compile visualisations for a given user-----------------
+#---------- Gather data to be able to build visualisations------------
 username = "mbostock"
 usernameURL = paste("https://api.github.com/users/",username,"/followers?per_page=100;",sep="")
 selectedUsersData = GET(usernameURL,gtoken)
@@ -154,6 +154,7 @@ for(i in 1:length(followersLogins))
         }
         next
     }
+    
     #Stop when there are more than 400 users
     if(length(users) > 400)
     {
@@ -163,7 +164,10 @@ for(i in 1:length(followersLogins))
 
 
 
-
+#----------------- Now to build the visualisations-------------------
+# Connect R to plotly
+Sys.setenv("plotly_username"="stephenoquigley")
+Sys.setenv("plotly_api_key"= "ImYtk3y7KA0TBoEcnL6m")
 
 
 
