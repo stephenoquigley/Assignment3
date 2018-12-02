@@ -91,8 +91,8 @@ numberOfRepos = length(myRepositories)
 
 #---------- Now to compile visualisations for a given user-----------------
 username = "mbostock"
-URL = paste("https://api.github.com/users/",username,"/followers?per_page=100;",sep="")
-selectedUsersData = GET(URL,gtoken)
+usernameURL = paste("https://api.github.com/users/",username,"/followers?per_page=100;",sep="")
+selectedUsersData = GET(usernameURL,gtoken)
 stop_for_status(selectedUsersData)
 contentOfUser = content(selectedUsersData)
 githubDataBase = jsonlite::fromJSON(jsonlite::toJSON(contentOfUser))
@@ -112,8 +112,8 @@ usersDB = data.frame(
 # Loop through each of the selected users followers
 for(i in 1:length(followersLogins))
 {
-    URL = paste("https://api.github.com/users/", user_ids[i], "/following", sep = "")
-    usersFollowing = GET(URL, gtoken)
+    followerURL = paste("https://api.github.com/users/", user_ids[i], "/following", sep = "")
+    usersFollowing = GET(followerURL, gtoken)
     usersFollowingContent = content(usersFollowing)
     
     # Move on to the next follower if they do not follow anyone
@@ -135,10 +135,16 @@ for(i in 1:length(followersLogins))
         {
             # Add user to list
             users[length(users) + 1] = followingUsernames[j]
-        }
+            
+            # Retrieve data on each user
+            followingURL = paste("https://api.github.com/users/", followingUsernames[j], sep = "")
+            followingInfo = GET(followingURL, gtoken)
+            followingContent = content(following2)
+            followingDataFrame2 = jsonlite::fromJSON(jsonlite::toJSON(followingContent))
+            
+        }    
     }
-
-
+}
 
 
 
