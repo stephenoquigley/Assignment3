@@ -171,6 +171,7 @@ plot1 = plot_ly(data = usersDataBase, x = ~repos, y = ~followers,
                               repos, "<br>Date Created:", dateCreated), color = ~dateCreated)%>%
                 layout(title='Relationship between Followers and Repositories')
 plot1
+# Plotly link: https://plot.ly/~stephenoquigley/3/#/
 
 
 # Scatter plot of the number of followers a user has and the number of users they follow
@@ -178,12 +179,13 @@ plot2 = plot_ly(data = usersDataBase, x = ~followers, y = ~following,
                 text = ~paste("User:", username,"<br>Followers:",followers,"<br>Following:",following))%>%
       layout(title = 'Relationship between Followers and Following')
 plot2
+# Plotly link: https://plot.ly/~stephenoquigley/5/#/
 
 
-#------------------Languages Visualization ---------------------------
+#-----Languages Visualization -----
 languages = c()
 
-# Loop hrough all the users
+# Loop through all the users
 for (i in 1:length(users))
 {
     reposURL = paste("https://api.github.com/users/", users[i], "/repos", sep = "")
@@ -193,7 +195,7 @@ for (i in 1:length(users))
     
     reposNames = reposDataFrame$name
   
-    # Go through all of the repos if the user
+    # Go through all of the repos of the user
     for (j in 1: length(reposNames))
     {
         
@@ -214,7 +216,7 @@ for (i in 1:length(users))
         next
     }
     
-    # Loop breaks after 200 entries as it takes too long to run otherwise
+    # Loop breaks after 2000 entries as it takes too long to run otherwise
     if(length(languages) > 2000)
     {
       break
@@ -231,6 +233,7 @@ languageDataFrame = as.data.frame(languageTableTop20)
 plot3 = plot_ly(data = languageDataFrame, x = languageDataFrame$languages, y = languageDataFrame$Freq, type = "bar") %>%
         layout(title="Top 20 Languages Used")
 plot3
+# Plotly link: https://plot.ly/~stephenoquigley/7/#/
 
 
 
@@ -239,7 +242,3 @@ Sys.setenv("plotly_api_key"= "ImYtk3y7KA0TBoEcnL6m")
 api_create(plot1, filename = "Followers vs Repositories by Date")
 api_create(plot2, filename = "Followers vs Following")
 api_create(plot3, filename = "Languages used in Repositories")
-
-
-
-
