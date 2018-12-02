@@ -78,39 +78,20 @@ myFollowing = getFollowing("stephenoquigley")
 numberFollowing = length(myFollowing)
 
 
-
-
-
-
-
-
-
-
-
-
-
-#Function that returns a list of the provided user's followers. 
-getFollowers <- function(username)
+#------------------ Looking at my repositories------------------------
+getRepositories <- function (username)
 {
-  URL <- paste("https://api.github.com/users/", username , "/followers", sep="")
-  followers = fromJSON(URL)
-  return (followers$login)
+  URLtoAccess <- paste("https://api.github.com/users/", username ,"/repos",sep="")
+  reposInfo <- fromJSON(URLtoAccess)
+  return (reposInfo$name)
 }
 
-#Function that returns a list of the people the provided user is following. 
-getFollowing <- function(username)
-{
-  URL <- paste("https://api.github.com/users/", username , "/following", sep="")
-  following = fromJSON(URL)
-  return (following$login)
-}
+myRepositories = getRepositories("stephenoquigley")
+numberOfRepos = length(myRepositories)
 
-getRepos <- function(username)
-{
-  URL <- paste("https://api.github.com/users/", username , "/repos", sep="")
-  repos = fromJSON(URL)
-  return (followers$login)
-}
+
+
+
 
 
 
