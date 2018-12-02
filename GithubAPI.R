@@ -50,8 +50,6 @@ myUserData = fromJSON("https://api.github.com/users/stephenoquigley")
 myUserData$followers
 myUserData$following
 
-pltlyKey <- "ImYtk3y7KA0TBoEcnL6m"
-
 
 #------------------ Looking at my followers------------------------
 getFollowers <- function(username)
@@ -160,6 +158,7 @@ for(i in 1:length(followersLogins))
     {
         break
     }
+    next
 }
 
 
@@ -181,13 +180,65 @@ plot2 = plot_ly(data = usersDataBase, x = ~followers, y = ~following,
 plot2
 
 
+#------------------Languages Visualization ---------------------------
+languages = c()
+
+# Loop hrough all the users
+for (i in 1:length(users))
+{
+    reposURL = paste("https://api.github.com/users/", users[i], "/repos", sep = "")
+    repos = GET(reposURL, gtoken)
+    reposContent = content(repos)
+    reposDataFrame = jsonlite::fromJSON(jsonlite::toJSON(reposContent))
+    
+    reposNames = reposDataFrame$name
+  
+    # Go through all of the repos if the user
+    for (j in 1: length(reposNames))
+    {
+        
+        reposURL2 = paste("https://api.github.com/repos/", users[i], "/", reposNames[j], sep = "")
+        repos2 = GET(reposURL2, gtoken)
+        reposContent2 = content(repos2)
+        reposDataFrame2 = jsonlite::fromJSON(jsonlite::toJSON(reposContent2))
+        
+        language = reposDataFrame2$language
+        
+        # Skip a repository if it has no language
+        if (length(language) != 0 && language != "<NA>")
+        {
+            # Add the languages to a list
+            languages[length(languages)+1] = language
+        }
+        
+        next
+    }
+    
+    # Loop breaks after 200 entries as it takes too long to run otherwise
+    if(length(languages) > 2000)
+    {
+      break
+    }
+    next
+}
+
+# Save the top 20 languages in a table
+languageTable = sort(table(languages), increasing=TRUE)
+languageTableTop20 = languageTable[(length(languageTable)-19):length(languageTable)]
+
+languageDataFrame = as.data.frame(languageTableTop20)
+  
+plot3 = plot_ly(data = languageDataFrame, x = languageDataFrame$languages, y = languageDataFrame$Freq, type = "bar") %>%
+        layout(title="Top 20 Languages Used")
+plot3
+
 
 
 Sys.setenv("plotly_username"="stephenoquigley")
 Sys.setenv("plotly_api_key"= "ImYtk3y7KA0TBoEcnL6m")
 api_create(plot1, filename = "Followers vs Repositories by Date")
 api_create(plot2, filename = "Followers vs Following")
-
+api_create(plot3, filename = "Languages used in Repositories")
 
 
 
