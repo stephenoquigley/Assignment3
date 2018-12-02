@@ -154,7 +154,11 @@ for(i in 1:length(followersLogins))
         }
         next
     }
-    
+    #Stop when there are more than 400 users
+    if(length(users) > 400)
+    {
+        break
+    }
 }
 
 
