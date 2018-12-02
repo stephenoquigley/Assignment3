@@ -149,9 +149,15 @@ for(i in 1:length(followersLogins))
             yearCreated = substr(followingDataFrame2$created_at, start = 1, stop = 4)
             
             
-        }    
+            # Add users data to a new row in the dataframe
+            usersDB[nrow(usersDB) + 1, ] = c(followingUsernames[j], followingNumber, followersNumber, reposNumber, yearCreated)
+        }
+        next
     }
+    
 }
+
+
 
 
 
