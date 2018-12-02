@@ -34,7 +34,7 @@ gitDF = jsonlite::fromJSON(jsonlite::toJSON(json1))
 # Subset data.frame
 gitDF[gitDF$full_name == "jtleek/datasharing", "created_at"] 
 
-
+# Code sourced from: https://towardsdatascience.com/accessing-data-from-github-api-using-r-3633fb62cb08
 
 #-------------Interrogate the GitHub API to build visualisation of data available that--------------
 #-------------elucidates some aspect of the softare engineering process-----------------------------
