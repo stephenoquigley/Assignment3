@@ -7,6 +7,13 @@ library(httpuv)
 #install.packages("httr")
 library(httr)
 detach(package:plotly, unload=TRUE)
+library(plotly)
+library(jsonlite)
+library(httpuv)
+library(httr)
+library(devtools)
+library(magrittr)
+library(dplyr)
 
 
 # Establish connection to Github
@@ -43,10 +50,30 @@ myUserData = fromJSON("https://api.github.com/users/stephenoquigley")
 myUserData$followers
 myUserData$following
 
+pltlyKey <- "ImYtk3y7KA0TBoEcnL6m"
 
+#Function that returns a list of the provided user's followers. 
+getFollowers <- function(username)
+{
+  URL <- paste("https://api.github.com/users/", username , "/followers", sep="")
+  followers = fromJSON(URL)
+  return (followers$login)
+}
 
+#Function that returns a list of the people the provided user is following. 
+getFollowing <- function(username)
+{
+  URL <- paste("https://api.github.com/users/", username , "/following", sep="")
+  following = fromJSON(URL)
+  return (following$login)
+}
 
-
+getRepos <- function(username)
+{
+  URL <- paste("https://api.github.com/users/", username , "/repos", sep="")
+  repos = fromJSON(URL)
+  return (followers$login)
+}
 
 
 
