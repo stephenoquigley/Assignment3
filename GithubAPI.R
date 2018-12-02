@@ -52,6 +52,43 @@ myUserData$following
 
 pltlyKey <- "ImYtk3y7KA0TBoEcnL6m"
 
+
+
+#------------------ Looking at my followers------------------------
+getFollowers <- function(username)
+{
+  URLtoAccess <- paste("https://api.github.com/users/", username ,"/followers",sep="")
+  followersInfo <- fromJSON(URLtoAccess)
+  return (followersInfo$login)
+}
+
+myFollowers = getFollowers("stephenoquigley")
+numberOfFollowers = length(myFollowers)
+
+
+#------------------ Looking at my following------------------------
+getFollowing <- function (username)
+{
+  URLtoAccess <- paste("https://api.github.com/users/", username ,"/following",sep="")
+  followingInfo <- fromJSON(URLtoAccess)
+  return (followingInfo$login)
+}
+
+myFollowing = getFollowing("stephenoquigley")
+numberFollowing = length(myFollowing)
+
+
+
+
+
+
+
+
+
+
+
+
+
 #Function that returns a list of the provided user's followers. 
 getFollowers <- function(username)
 {
