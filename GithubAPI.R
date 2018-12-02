@@ -171,11 +171,7 @@ plot1 = plot_ly(data = usersDataBase, x = ~repos, y = ~followers,
                 text = ~paste("User:", username,"<br>Followers: ", followers, "<br>Repositories: ", 
                               repos, "<br>Date Created:", dateCreated), color = ~dateCreated)%>%
                 layout(title='Relationship between Followers and Repositories')
-
 plot1
-Sys.setenv("plotly_username"="stephenoquigley")
-Sys.setenv("plotly_api_key"= "ImYtk3y7KA0TBoEcnL6m")
-api_create(plot1, filename = "Followers vs Repositories by Date")
 
 
 # Scatter plot of the number of followers a user has and the number of users they follow
@@ -183,6 +179,14 @@ plot2 = plot_ly(data = usersDataBase, x = ~followers, y = ~following,
                 text = ~paste("User:", username,"<br>Followers:",followers,"<br>Following:",following))%>%
       layout(title = 'Relationship between Followers and Following')
 plot2
+
+
+
+
+Sys.setenv("plotly_username"="stephenoquigley")
+Sys.setenv("plotly_api_key"= "ImYtk3y7KA0TBoEcnL6m")
+api_create(plot1, filename = "Followers vs Repositories by Date")
+api_create(plot2, filename = "Followers vs Following")
 
 
 
