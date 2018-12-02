@@ -53,7 +53,6 @@ myUserData$following
 pltlyKey <- "ImYtk3y7KA0TBoEcnL6m"
 
 
-
 #------------------ Looking at my followers------------------------
 getFollowers <- function(username)
 {
@@ -88,6 +87,28 @@ getRepositories <- function (username)
 
 myRepositories = getRepositories("stephenoquigley")
 numberOfRepos = length(myRepositories)
+
+
+#---------- Now to compile visualisations for a given user-----------------
+username = "mbostock"
+URL = paste("https://api.github.com/users/",username,"/followers?per_page=100;",sep="")
+selectedUsersData = GET(URL,gtoken)
+stop_for_status(selectedUsersData)
+contentOfUser = content(selectedUsersData)
+githubDataBase = jsonlite::fromJSON(jsonlite::toJSON(contentOfUser))
+githubDataBase$login
+followers=githubDB$login
+followersLogins = c(followers)
+
+users = c()
+usersDB = data.frame(
+    username = integer(),
+    following = integer(),
+    followers = integer(),
+    repos = integer(),
+    dateCreated = integer())
+
+
 
 
 
