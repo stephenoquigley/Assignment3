@@ -109,13 +109,18 @@ usersDB = data.frame(
     dateCreated = integer())
 
 
-
+# Loop through each of the selected users followers
 for(i in 1:length(followersLogins))
 {
-  #Retrieve a list of individual users 
   URL = paste("https://api.github.com/users/", user_ids[i], "/following", sep = "")
   usersFollowing = GET(URL, gtoken)
   usersFollowingContent = content(followingRequest)
+  
+  # Move on to the next follower if they do not follow anyone
+  if(length(usersFollowingContent) == 0)
+  {
+    next
+  }
   
   
 
