@@ -112,17 +112,31 @@ usersDB = data.frame(
 # Loop through each of the selected users followers
 for(i in 1:length(followersLogins))
 {
-  URL = paste("https://api.github.com/users/", user_ids[i], "/following", sep = "")
-  usersFollowing = GET(URL, gtoken)
-  usersFollowingContent = content(followingRequest)
-  
-  # Move on to the next follower if they do not follow anyone
-  if(length(usersFollowingContent) == 0)
-  {
-    next
-  }
-  
-  
+    URL = paste("https://api.github.com/users/", user_ids[i], "/following", sep = "")
+    usersFollowing = GET(URL, gtoken)
+    usersFollowingContent = content(usersFollowing)
+    
+    # Move on to the next follower if they do not follow anyone
+    if(length(usersFollowingContent) == 0)
+    {
+        next
+    }
+    
+    # Compile a data frame of the users they follow
+    followingDataFrame = jsonlite::fromJSON(jsonlite::toJSON(usersFollowingContent))
+    followingUsernames = followingDataFrame$login
+    
+    
+    # Loop through 'following' users
+    for (j in 1:length(followingUsernames))
+    {
+        # Check user is not already in list
+        if (is.element(followingUsernames[j], users) == FALSE)
+        {
+            # Add user to list
+            users[length(users) + 1] = followingUsernames[j]
+        }
+    }
 
 
 
