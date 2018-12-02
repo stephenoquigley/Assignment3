@@ -167,14 +167,14 @@ for(i in 1:length(followersLogins))
 #----------------- Now to build the visualisations-------------------
 
 plot1 = plot_ly(data = usersDataBase, x = ~repos, y = ~followers, 
-                text = ~paste("Followers: ", followers, "<br>Repositories: ", 
-                              repos, "<br>Date Created:", dateCreated), color = ~dateCreated)
+                text = ~paste("User:", username,"<br>Followers: ", followers, "<br>Repositories: ", 
+                              repos, "<br>Date Created:", dateCreated), color = ~dateCreated)%>%
+                layout(title='Relationship between Followers and Repositories')
 
+plot1
 Sys.setenv("plotly_username"="stephenoquigley")
 Sys.setenv("plotly_api_key"= "ImYtk3y7KA0TBoEcnL6m")
 api_create(plot1, filename = "Followers vs Repositories by Date")
-
-
 
 
 
